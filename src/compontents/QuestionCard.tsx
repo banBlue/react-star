@@ -3,7 +3,7 @@ import QuestionCardStyles from './QuestionCard.module.scss';
 import classNames from 'classnames';
 import { useNavigate, Link } from 'react-router-dom';
 import { Tag, Space, Button, Divider, Modal, message, Popconfirm   } from 'antd' 
-import {EditOutlined , LineChartOutlined,DeleteOutlined,CopyOutlined} from '@ant-design/icons'
+import {EditOutlined , LineChartOutlined,DeleteOutlined,CopyOutlined,StarOutlined , BookOutlined} from '@ant-design/icons'
 
 type QuestionCardProps = {
   id: number;
@@ -43,7 +43,11 @@ const QuestionCard:React.FC<QuestionCardProps> = (props:QuestionCardProps) => {
   return (
     <div className={classCard}>
       <div className={QuestionCardStyles.title}>  
-        <div className={QuestionCardStyles.divt}><Link to={isPublished ? `/question/stat/${id}` : `/question/edit/${id}`}>{title}</Link></div>
+        <div className={QuestionCardStyles.divt}>
+          <Link to={isPublished ? `/question/stat/${id}` : `/question/edit/${id}`}>
+            {isStar ? <StarOutlined /> :  <BookOutlined /> }{title}
+          </Link>
+        </div>
         <div className={QuestionCardStyles.right}>
           <Space>
             {isPublished ? <Tag color="processing">已发布</Tag> : <Tag color="gold">未发布</Tag>}

@@ -9,7 +9,7 @@ import QuestionLayout from '../layouts/QuestionLayout'
 // 页面组件
 import Home from '../pages/Home'
 import Login from '../pages/Login'
-import Register from '../pages/register'
+import Register from '../pages/Register'
 import NotFound from '../pages/NotFound'
 import List from '../pages/manage/List'
 import Star from '../pages/manage/Star'

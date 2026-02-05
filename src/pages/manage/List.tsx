@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
+import { Typography } from 'antd';
 import QuestionCard from '../../compontents/QuestionCard';
+import ListSearch from '../../compontents/ListSearch';
 import ListStyles from './common.module.scss';
+
+const { Title } = Typography;
+
 // 问题数据
 const rawQuestionList = [
   {
@@ -46,8 +51,12 @@ const List: React.FC = () => {
   return (
     <>
       <div className={ListStyles.title}>
-        <div className={ListStyles.left}>我的问卷</div>
-        <div className={ListStyles.right}>开始搜索</div>
+        <div className={ListStyles.left}>
+          <Title level={2}>我的问卷</Title>
+        </div>
+        <div className={ListStyles.right}>
+          <ListSearch />
+        </div>
       </div>
 
       <div className={ListStyles.content}>
