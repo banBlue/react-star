@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import useLoadQuestion from '../../../hooks/useLoadQuestion'
 
 const Edit:React.FC = () => {
+  const {data, loading} = useLoadQuestion()
   return <>
-    Edit
+    Edit {loading ? 'loading' : JSON.stringify(data)}
   </>
 }
 

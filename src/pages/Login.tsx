@@ -20,6 +20,11 @@ function rememberLogin({username, password, remember}:{username:string, password
 const Login:React.FC = () => {
   const nav = useNavigate()
   const [form] = Form.useForm();
+  useEffect(() => {
+    fetch('/api/question').then(res => res.json()).then(data => {
+      console.log(data)
+    })
+  })
   const onFinish = (values: any) => {
     console.log(values);
     rememberLogin({username:values.username, password:values.password, remember:values.remember})

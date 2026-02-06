@@ -69,3 +69,16 @@ To learn React, check out the [React documentation](https://reactjs.org/).
     + npm install antd --save
     + icon: npm install @ant-design/icons --save
 
+## 接口设计
++ 用户验证使用jwt token
++ restful api设计规范
+  + {errno, data, msg}
++ 登录注册接口
+  + POST /api/login    
+  + POST /api/register
++ 问卷接口
+  + GET /api/question
+  + POST /api/question
+  + PUT /api/question/:id
+  + DELETE /api/question/:id
+
