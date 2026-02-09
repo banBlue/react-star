@@ -10,6 +10,7 @@ type OptType = {
   keyword: string
   page: number
   pageSize: number
+  isDeleted: boolean
 }
 export async function getQuestionList(params:Partial<OptType>): Promise<ResponseDataType> {
   return  await instance.get<ResponseDataType>('/api/questionList',{params})
@@ -17,4 +18,14 @@ export async function getQuestionList(params:Partial<OptType>): Promise<Response
 
 export const createQuestion: () => Promise<ResponseDataType> = async () => {
   return await instance.post<ResponseDataType>('/api/question')
+}
+
+// 编辑问卷状态
+export async function updateQuestionService(id:string, params: Partial<OptType>):Promise<ResponseDataType> {
+  return await instance.patch<ResponseDataType>('/api/question/' + id, params) 
+}
+
+// 复制问卷
+export async function duplicateQuestionService(id:string): Promise<ResponseDataType> {
+  return await instance.post<ResponseDataType>('/api/question/duplicate/' + id)
 }
