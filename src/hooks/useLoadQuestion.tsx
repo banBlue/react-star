@@ -1,11 +1,11 @@
 import { useParams } from 'react-router-dom'
 import {useRequest} from 'ahooks'
-import { getQuestionList } from '../services/question'
+import { getQuestion } from '../services/question'
 
 const useLoadQuestion = () =>{
   const {id} = useParams()
   const fn = async () => {
-    return await getQuestionList(Number(id))
+    return await getQuestion(Number(id))
   }
   const {data, error, loading} = useRequest(fn)
 

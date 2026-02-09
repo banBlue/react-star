@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useLocation,useNavigate, useSearchParams} from 'react-router-dom'
 import { Input } from 'antd'; 
-import { SEARCH_KEY } from '../constant';
+import { SEARCH_KEY, PAGE_KEY, PAGE_SIZE_KEY } from '../constant';
 
 const Search = Input.Search;
 
@@ -19,7 +19,7 @@ const ListSearch:React.FC = () => {
     console.log(value);
     nav({
       pathname: location.pathname,
-      search: `${SEARCH_KEY}=${value}`
+      search: `${SEARCH_KEY}=${value}&${PAGE_KEY}=1&${PAGE_SIZE_KEY}=10`
     })
   }
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {

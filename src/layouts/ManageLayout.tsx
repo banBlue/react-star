@@ -24,7 +24,7 @@ const ManageLayout:React.FC = () => {
       <p>manage layout</p>
       <Space vertical={true}>
         <Button type='primary' icon={<PlusOutlined />} onClick={_createQuestion} loading={loading}>新增问卷</Button>
-        <Divider type="vertical" />
+        <Divider orientation="vertical" />
         <Button type={pathname.includes('/manage/list') ? 'default' : 'text'} onClick={() => nav('/manage/list')} icon={<FrownOutlined />}>查看问卷</Button>
         <Button type={pathname.includes('/manage/star') ? 'default' : 'text'} onClick={() => nav('/manage/star')} icon={<StarOutlined />}>星标问卷</Button>
         <Button type={pathname.includes('/manage/trash') ? 'default' : 'text'} onClick={() => nav('/manage/trash')} icon={<DeleteOutlined />} >回收站</Button>

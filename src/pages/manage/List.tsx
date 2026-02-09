@@ -1,53 +1,15 @@
 import React, {useState} from 'react';
-import { Typography } from 'antd';
+import { Typography, Spin } from 'antd';
 import QuestionCard from '../../compontents/QuestionCard';
 import ListSearch from '../../compontents/ListSearch';
 import ListStyles from './common.module.scss';
+import {QuestionType} from '../../type/index'
+import useQuestionList from '../../hooks/useQuestionList'
 
 const { Title } = Typography;
 
-// 问题数据
-const rawQuestionList = [
-  {
-    id: 1,
-    title: '问题1',
-    content: '问题1的内容',
-    isPublished: false,
-    isStar:false,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 2,
-    title: '问题2',
-    content: '问题2的内容',
-    isPublished: true,
-    isStar:false,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 3,
-    title: '问题3',
-    content: '问题3的内容',
-    isPublished: true,
-    isStar:true,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 4,
-    title: '问题4',
-    content: '问题4的内容',
-    isPublished: true,
-    isStar:false,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-]
-
 const List: React.FC = () => {
-  const [qList, setQList] = useState(rawQuestionList);
+  const {list, total, loading} = useQuestionList()
   return (
     <>
       <div className={ListStyles.title}>
@@ -60,9 +22,10 @@ const List: React.FC = () => {
       </div>
 
       <div className={ListStyles.content}>
+        {loading && <Spin/>}
         {
-          qList.map((item) => (
-            <QuestionCard key={item.id} title={item.title} content={item.content} isPublished={item.isPublished} isStar={item.isStar} answerCount={item.answerCount} createTime={item.createTime} id={item.id} />
+          !loading && list.length && list.map((item:QuestionType) => (
+            <QuestionCard key={item.id} title={item.title} isPublished={item.isPublished} isStar={item.isStar} answerCount={item.answerCount} createdAt={item.createdAt} id={item.id} />
           ))
         }
       </div>

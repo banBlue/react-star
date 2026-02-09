@@ -3,50 +3,16 @@ import { Typography, Empty, Table,Tag, Button,Space, Modal, message,  } from 'an
 import ListSearch from '../../compontents/ListSearch';
 import ListStyles from './common.module.scss';
 import {DeleteOutlined} from '@ant-design/icons'
+
+import {QuestionType} from '../../type/index'
+import useQuestionList from '../../hooks/useQuestionList'
+import ListPage from '../../compontents/ListPage'
+
 const { Title } = Typography;
 
-// 问题数据
-const rawQuestionList = [
-  {
-    id: 1,
-    title: '问题1',
-    content: '问题1的内容',
-    isPublished: false,
-    isStar:false,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 2,
-    title: '问题2',
-    content: '问题2的内容',
-    isPublished: true,
-    isStar:false,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 3,
-    title: '问题3',
-    content: '问题3的内容',
-    isPublished: true,
-    isStar:true,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 4,
-    title: '问题4',
-    content: '问题4的内容',
-    isPublished: true,
-    isStar:false,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-]
-
 const Trash: React.FC = () => {
-  const [qList, setQList] = useState(rawQuestionList);
+  const {list, total, loading} = useQuestionList({isDeleted : true})
+  
   const tableColumns = [
     {
       title: '标题',
@@ -65,7 +31,7 @@ const Trash: React.FC = () => {
     },
     {
       title: '创建时间',
-      dataIndex: 'createTime',
+      dataIndex: 'createdAt',
     },
   ]
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -93,9 +59,9 @@ const Trash: React.FC = () => {
       </Space>
       <Table 
         columns={tableColumns} 
-        dataSource={rawQuestionList}
+        dataSource={list}
         pagination={false} 
-        rowKey={(record) => record.id} 
+        rowKey={(record:QuestionType) => record.id} 
         rowSelection={{
           selectedRowKeys,
           onChange: (newSelectedRowKeys: React.Key[]) => {
@@ -118,11 +84,13 @@ const Trash: React.FC = () => {
 
       <div className={ListStyles.content}>
         {
-          qList.length === 0 ? <Empty /> : TableFragment
+          list.length === 0 ? <Empty /> : TableFragment
         }
       </div>
 
-      <div className={ListStyles.footer}>当我是个页脚咯</div>
+      <div className={ListStyles.footer}>
+        <ListPage total={total} />
+      </div>
     </>
   );
 };

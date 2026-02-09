@@ -4,50 +4,14 @@ import QuestionCard from '../../compontents/QuestionCard';
 import ListSearch from '../../compontents/ListSearch';
 import ListStyles from './common.module.scss';
 import {StarOutlined} from '@ant-design/icons'
+
+import {QuestionType} from '../../type/index'
+import useQuestionList from '../../hooks/useQuestionList'
+import ListPage from '../../compontents/ListPage'
+
 const { Title } = Typography;
-
-// 问题数据
-const rawQuestionList = [
-  {
-    id: 1,
-    title: '问题1',
-    content: '问题1的内容',
-    isPublished: false,
-    isStar:true,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 2,
-    title: '问题2',
-    content: '问题2的内容',
-    isPublished: true,
-    isStar:false,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 3,
-    title: '问题3',
-    content: '问题3的内容',
-    isPublished: true,
-    isStar:true,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-  {
-    id: 4,
-    title: '问题4',
-    content: '问题4的内容',
-    isPublished: true,
-    isStar:false,
-    answerCount: 0,
-    createTime: '2023-01-01',
-  },
-]
-
 const Star: React.FC = () => {
-  const [qList, setQList] = useState(rawQuestionList);
+  const {list, total, loading} = useQuestionList({isStar:true})
   return (
     <>
       <div className={ListStyles.title}>
@@ -61,16 +25,18 @@ const Star: React.FC = () => {
 
       <div className={ListStyles.content}>
         {
-          qList.length === 0 && <Empty />
+          list.length === 0 && <Empty />
         }
         {
-          qList.length > 0 && qList.map((item) => (
-            <QuestionCard key={item.id} title={item.title} content={item.content} isPublished={item.isPublished} isStar={item.isStar} answerCount={item.answerCount} createTime={item.createTime} id={item.id} />
+          list.length > 0 && list.map((item:QuestionType) => (
+            <QuestionCard key={item.id} title={item.title}  isPublished={item.isPublished} isStar={item.isStar} answerCount={item.answerCount} createdAt={item.createdAt} id={item.id} />
           ))
         }
       </div>
 
-      <div className={ListStyles.footer}>当我是个页脚咯</div>
+      <div className={ListStyles.footer}>
+        <ListPage total={total} />
+      </div>
     </>
   );
 };

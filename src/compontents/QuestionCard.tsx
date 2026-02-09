@@ -4,20 +4,11 @@ import classNames from 'classnames';
 import { useNavigate, Link } from 'react-router-dom';
 import { Tag, Space, Button, Divider, Modal, message, Popconfirm   } from 'antd' 
 import {EditOutlined , LineChartOutlined,DeleteOutlined,CopyOutlined,StarOutlined , BookOutlined} from '@ant-design/icons'
+import { QuestionType } from '../type';
 
-type QuestionCardProps = {
-  id: number;
-  title: string;
-  content: string;
-  isPublished: boolean;
-  isStar: boolean;
-  answerCount: number;
-  createTime: string;
-}
-
-const QuestionCard:React.FC<QuestionCardProps> = (props:QuestionCardProps) => {
+const QuestionCard:React.FC<QuestionType> = (props:QuestionType) => {
   const nav = useNavigate()
-  const {id, title, content, isPublished, isStar, answerCount, createTime} = props;
+  const {id, title, isPublished, isStar, answerCount, createdAt} = props;
   const classCard = classNames(QuestionCardStyles.card, {
     [QuestionCardStyles['is-published']]: isPublished,
     [QuestionCardStyles['is-star']]: isStar,
@@ -52,7 +43,7 @@ const QuestionCard:React.FC<QuestionCardProps> = (props:QuestionCardProps) => {
           <Space>
             {isPublished ? <Tag color="processing">已发布</Tag> : <Tag color="gold">未发布</Tag>}
             <span>答案: {answerCount}</span>
-            <span>{createTime}</span>
+            <span>{createdAt}</span>
           </Space>
         </div>
       </div>
