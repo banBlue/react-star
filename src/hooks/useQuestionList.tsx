@@ -15,7 +15,7 @@ type OptType = {
 
 const useQustionList = (opt:Partial<OptType> = {isDeleted: false, isStar: false}) => {
   const [searchParams] = useSearchParams();
-  const {data = {}, loading} = useRequest(async () => {
+  const {data = {}, loading, refresh} = useRequest(async () => {
     const obj = {...opt}
     obj[SEARCH_KEY] = searchParams.get(SEARCH_KEY) ||  ''
     obj.page = Number(searchParams.get(PAGE_KEY)) || 1
@@ -30,7 +30,7 @@ const useQustionList = (opt:Partial<OptType> = {isDeleted: false, isStar: false}
   const list = data.list || []
   const total = data.total || 0
 
-  return {list, total, loading}
+  return {list, total, loading, refresh}
 }
 
 export default useQustionList

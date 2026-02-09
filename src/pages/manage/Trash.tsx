@@ -3,6 +3,8 @@ import { Typography, Empty, Table,Tag, Button,Space, Modal, message,  } from 'an
 import ListSearch from '../../compontents/ListSearch';
 import ListStyles from './common.module.scss';
 import {DeleteOutlined} from '@ant-design/icons'
+import {useRequest} from 'ahooks'
+import {updateQuestionService,deleteQuestionService} from '../../services/question'
 
 import {QuestionType} from '../../type/index'
 import useQuestionList from '../../hooks/useQuestionList'
@@ -11,7 +13,7 @@ import ListPage from '../../compontents/ListPage'
 const { Title } = Typography;
 
 const Trash: React.FC = () => {
-  const {list, total, loading} = useQuestionList({isDeleted : true})
+  const {list, total, loading, refresh} = useQuestionList({isDeleted : true})
   
   const tableColumns = [
     {
@@ -35,16 +37,38 @@ const Trash: React.FC = () => {
     },
   ]
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const handleRecover = () => {
-    message.success('恢复成功')
-  }
+  const {run:handleRecover} = useRequest(async () => {
+    for await(const id of selectedRowKeys) {
+      await updateQuestionService(String(id), {isDeleted: false})
+    }
+  }, {
+    manual: true,
+    debounceWait: 1000,
+    onSuccess: () => {
+      message.success('恢复成功')
+      refresh()
+      setSelectedRowKeys([])
+    }
+  })
+
+  const {run:_deleteQuestionService} = useRequest(async () => {
+    return await deleteQuestionService({ids: selectedRowKeys as string[]})
+  }, {
+    manual: true,
+    debounceWait: 1000,
+    onSuccess: () => {
+      message.success('删除成功')
+      refresh()
+      setSelectedRowKeys([])
+    }
+  })
   const handleDelete = () => {    
     Modal.confirm({
       title: '确认删除吗,永久无法找回？',
       okText: '确认',
       okType: 'danger',
       onOk: () => {
-        message.success('删除成功')
+        _deleteQuestionService()
       },
       onCancel: () => {
         console.log('Cancel');
@@ -65,6 +89,7 @@ const Trash: React.FC = () => {
         rowSelection={{
           selectedRowKeys,
           onChange: (newSelectedRowKeys: React.Key[]) => {
+            console.log('newSelectedRowKeys', newSelectedRowKeys);
             setSelectedRowKeys(newSelectedRowKeys);
           },
         }}

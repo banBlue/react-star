@@ -29,3 +29,8 @@ export async function updateQuestionService(id:string, params: Partial<OptType>)
 export async function duplicateQuestionService(id:string): Promise<ResponseDataType> {
   return await instance.post<ResponseDataType>('/api/question/duplicate/' + id)
 }
+
+// 批量删除问卷
+export async function deleteQuestionService(params: {ids: string[]}): Promise<ResponseDataType> {
+  return await instance.delete<ResponseDataType>('/api/question', {params})
+}
