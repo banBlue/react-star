@@ -17,8 +17,8 @@ const ListPage: React.FC<ListProps> = (Props) => {
   const location = useLocation();
 
   useEffect(() => {
-    const page = searchParams.get(PAGE_KEY)
-    const pageSize = searchParams.get(PAGE_SIZE_KEY)
+    const page = searchParams.get(PAGE_KEY) || 1
+    const pageSize = searchParams.get(PAGE_SIZE_KEY) || 10
     page && setPage(Number(page))
     pageSize && setPageSize(Number(pageSize))
   }, [searchParams])

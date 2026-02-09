@@ -19,7 +19,7 @@ const ListSearch:React.FC = () => {
     console.log(value);
     nav({
       pathname: location.pathname,
-      search: `${SEARCH_KEY}=${value}&${PAGE_KEY}=1&${PAGE_SIZE_KEY}=10`
+      search: `${SEARCH_KEY}=${value}`
     })
   }
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
