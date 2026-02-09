@@ -1,9 +1,12 @@
 import React, {useEffect} from 'react'
-import { Button, Form, Input, Space,Checkbox, Typography } from 'antd';
+import { Button, Form, Input, Space,Checkbox, Typography, message } from 'antd';
 import styles from './Login.module.scss'
 import { useNavigate } from 'react-router-dom';
 import {UserAddOutlined} from '@ant-design/icons'
 import { USER_NAME_KEY, PASSWORD_KEY } from '../constant';
+import {useRequest} from 'ahooks'
+import {loginService} from '../services/user'
+import {setUserToken} from '../utils/user'
 
 function rememberLogin({username, password, remember}:{username:string, password:string, remember:boolean}) {
   if (username && password && remember) {
@@ -20,14 +23,28 @@ function rememberLogin({username, password, remember}:{username:string, password
 const Login:React.FC = () => {
   const nav = useNavigate()
   const [form] = Form.useForm();
-  useEffect(() => {
-    fetch('/api/question').then(res => res.json()).then(data => {
-      console.log(data)
-    })
+    const {run, loading} = useRequest(async (params) => {
+    return await loginService(params)
+  }, {
+    manual: true,
+    onSuccess: (res) => {
+      message.success({
+        content: '登录成功',
+        onClose: () => {
+          setUserToken(res.token)
+          nav('/')
+        }
+      })
+    }
   })
   const onFinish = (values: any) => {
     console.log(values);
-    rememberLogin({username:values.username, password:values.password, remember:values.remember})
+    const {username, password, remember} = values
+    rememberLogin({username, password, remember})
+    run({
+      username,
+      password,
+    })
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log(errorInfo);
@@ -83,7 +100,7 @@ const Login:React.FC = () => {
             <Button type="primary" htmlType="submit">
               登录
             </Button>
-            <Button type="link" onClick={() => nav('/register')}>
+            <Button type="link" onClick={() => nav('/register')} disabled={loading}>
               注册新用户
             </Button>
           </Space>

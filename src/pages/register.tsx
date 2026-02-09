@@ -1,14 +1,31 @@
 import React from 'react'
-import { Button, Form, Input, Space } from 'antd';
+import { Button, Form, Input, Space, message } from 'antd';
 import styles from './Home.module.scss'
 import { useNavigate } from 'react-router-dom';
 import {UserAddOutlined} from '@ant-design/icons'
+import {useRequest} from 'ahooks'
+import {registerService} from '../services/user'
 
 const Register:React.FC = () => {
   const nav = useNavigate()
   const onFinish = (values: any) => {
     console.log(values);
+    const {username,password,nickname = ''} = values
+    run({
+      username,
+      password,
+      nickname,
+    })
   };
+  const {run , loading} = useRequest(async (params) => {
+    return await registerService(params)
+  }, {
+    manual: true,
+    onSuccess: () => {
+      message.success('注册成功')
+      nav('/login')
+    }
+  })
   const onFinishFailed = (errorInfo: any) => {
     console.log(errorInfo);
   };
@@ -68,7 +85,7 @@ const Register:React.FC = () => {
           label="昵称" 
           name="nickname"
           rules={[
-            { required: true, message: '请输入昵称' },
+            { required: false, message: '请输入昵称' },
             { min: 2, max: 10, message: '昵称长度必须在 2 到 10 个字符之间' },
           ]}
           >
@@ -79,7 +96,7 @@ const Register:React.FC = () => {
             <Button type="primary" htmlType="submit">
               注册
             </Button>
-            <Button type="link" onClick={() => nav('/login')}>
+            <Button type="link" onClick={() => nav('/login')} disabled={loading}>
               已有账户,登录
             </Button>
           </Space>
