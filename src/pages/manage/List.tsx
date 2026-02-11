@@ -94,7 +94,7 @@ const List: React.FC = () => {
       </div>
 
       <div className={ListStyles.content}>
-        {list.length && list.map((item:QuestionType) => (
+        {list.map((item:QuestionType) => (
           <QuestionCard key={item.id} title={item.title} isPublished={item.isPublished} isStar={item.isStar} answerCount={item.answerCount} createdAt={item.createdAt} id={item.id} />
         ))}
       </div>
