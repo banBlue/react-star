@@ -85,7 +85,7 @@ const Trash: React.FC = () => {
         columns={tableColumns} 
         dataSource={list}
         pagination={false} 
-        rowKey={(record:QuestionType) => record.id} 
+        rowKey={(record:QuestionType) => record._id} 
         rowSelection={{
           selectedRowKeys,
           onChange: (newSelectedRowKeys: React.Key[]) => {

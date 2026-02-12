@@ -10,7 +10,7 @@ import {useRequest} from 'ahooks'
 
 const QuestionCard:React.FC<QuestionType> = (props:QuestionType) => {
   const nav = useNavigate()
-  const {id, title, isPublished, isStar, answerCount, createdAt} = props;
+  const {_id, title, isPublished, isStar, answerCount, createdAt} = props;
   const [isStarState, setIsStarState] = useState<boolean>(isStar)
   const classCard = classNames(QuestionCardStyles.card, {
     [QuestionCardStyles['is-published']]: isPublished,
@@ -18,7 +18,7 @@ const QuestionCard:React.FC<QuestionType> = (props:QuestionType) => {
   })
 
   const {run: _updateQuestionService, loading} = useRequest(async () => {
-    const data = await updateQuestionService(id, {isStar: !isStarState })
+    const data = await updateQuestionService(_id, {isStar: !isStarState })
     return data
   }, {
     manual: true,
@@ -29,7 +29,7 @@ const QuestionCard:React.FC<QuestionType> = (props:QuestionType) => {
   })
 
   const {run: handleCopy, loading: loadingCopy} = useRequest(async () => {
-    const data = await duplicateQuestionService(id)
+    const data = await duplicateQuestionService(_id)
     return data
   }, {
     manual: true,
@@ -37,7 +37,7 @@ const QuestionCard:React.FC<QuestionType> = (props:QuestionType) => {
       message.success({
         content: '复制成功',
         onClose: ()=> {
-          nav(`/question/edit/${res.id}`)
+          nav(`/question/edit/${res._id}`)
         }
       })
     }
@@ -46,7 +46,7 @@ const QuestionCard:React.FC<QuestionType> = (props:QuestionType) => {
   const [isDeleted, setIsDeleted] = useState<boolean>(false)
 
   const {run: _deleteQuestionService, loading: loadingDelete} = useRequest(async () => {
-    const data = await updateQuestionService(id, {isDeleted: true })
+    const data = await updateQuestionService(_id, {isDeleted: true })
     return data
   }, {
     manual: true,
@@ -77,7 +77,7 @@ const QuestionCard:React.FC<QuestionType> = (props:QuestionType) => {
     <div className={classCard}>
       <div className={QuestionCardStyles.title}>  
         <div className={QuestionCardStyles.divt}>
-          <Link to={isPublished ? `/question/stat/${id}` : `/question/edit/${id}`}>
+          <Link to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}>
             {isStarState ? <StarOutlined /> :  <BookOutlined /> }{title}
           </Link>
         </div>
@@ -93,8 +93,8 @@ const QuestionCard:React.FC<QuestionType> = (props:QuestionType) => {
       <div className={QuestionCardStyles.info}>
         <div className={QuestionCardStyles.left}>
           <Space>
-            <Button type="text" size="small" icon={<EditOutlined />} onClick={() => {nav(`/question/edit/${id}`)}}>编辑问卷</Button>
-            <Button type="text" size="small" icon={<LineChartOutlined />} onClick={() => {nav(`/question/stat/${id}`)}}>问卷统计</Button>
+            <Button type="text" size="small" icon={<EditOutlined />} onClick={() => {nav(`/question/edit/${_id}`)}}>编辑问卷</Button>
+            <Button type="text" size="small" icon={<LineChartOutlined />} onClick={() => {nav(`/question/stat/${_id}`)}}>问卷统计</Button>
           </Space>
         </div>
         <div className={QuestionCardStyles.right}>

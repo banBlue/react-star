@@ -67,14 +67,17 @@ const List: React.FC = () => {
 
 
   useEffect(() => {
-    tryLoadMore()
+    tryLoadMore()    
+  },[searchParams])
+
+  useEffect(() => {
     if(haveMore) {
       window.addEventListener('scroll', tryLoadMore)
     }
     return () => {
       window.removeEventListener('scroll', tryLoadMore)
     }
-  })
+  },[searchParams, haveMore])
 
   const dom = useMemo(() => {
     if(!requireDone || loading) return <Spin />
@@ -95,7 +98,7 @@ const List: React.FC = () => {
 
       <div className={ListStyles.content}>
         {list.map((item:QuestionType) => (
-          <QuestionCard key={item.id} title={item.title} isPublished={item.isPublished} isStar={item.isStar} answerCount={item.answerCount} createdAt={item.createdAt} id={item.id} />
+          <QuestionCard key={item._id} title={item.title} isPublished={item.isPublished} isStar={item.isStar} answerCount={item.answerCount} createdAt={item.createdAt} _id={item._id} />
         ))}
       </div>
 

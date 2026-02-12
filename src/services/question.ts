@@ -13,7 +13,7 @@ type OptType = {
   isDeleted: boolean
 }
 export async function getQuestionList(params:Partial<OptType>): Promise<ResponseDataType> {
-  return  await instance.get<ResponseDataType>('/api/questionList',{params})
+  return  await instance.get<ResponseDataType>('/api/question',{params})
 }
 
 export const createQuestion: () => Promise<ResponseDataType> = async () => {

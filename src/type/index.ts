@@ -1,5 +1,5 @@
 export type QuestionType = {
-  id: string
+  _id: string
   title: string
   isPublished: boolean
   isStar: boolean
