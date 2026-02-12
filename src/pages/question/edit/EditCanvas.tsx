@@ -1,11 +1,11 @@
 import React from 'react'
-import QuestionTitle from '../../../compontents/QuestionCompontents/QuestionTitle/Component'
-import QuestionInput from '../../../compontents/QuestionCompontents/QuestionInput/Component'
 import styles from './EditCanvas.module.scss'
 import {Spin} from 'antd'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 import {getComponentConfType} from '../../../compontents/QuestionCompontents'
 import type {ComponentInfoType} from '../../../store/componentsReduxer'
+import { useDispatch } from 'react-redux'
+import {changeSelectedId} from '../../../store/componentsReduxer'
 
 type PropsType = {
   loading: boolean
@@ -22,9 +22,15 @@ function getComponentByType(item: ComponentInfoType) {
   )
 }
 
+
 const EditCanvas: React.FC<PropsType> = (props: PropsType) => {
   const {loading} = props
   const {componentsList = [], selectedId = ''} = useGetComponentInfo()
+  const dispatch = useDispatch()
+  const setSelectedId = (e:React.MouseEvent,id:string) => {
+    e.stopPropagation()
+    dispatch(changeSelectedId(id))
+  }
   if(loading) {
     return (
       <Spin />
@@ -35,7 +41,7 @@ const EditCanvas: React.FC<PropsType> = (props: PropsType) => {
       {componentsList.map(item => {
         const isSelected = item['fe_id'] === selectedId
         return (
-        <div className={styles['component-wrapper'] + (isSelected ? ' ' + styles['selected'] : '')} key={item['fe_id']}>
+        <div className={styles['component-wrapper'] + (isSelected ? ' ' + styles['selected'] : '')} key={item['fe_id']} onDoubleClick={(e) => {setSelectedId(e,item['fe_id'])}}>
           <div className={styles['component']}>
             {/* <item.Component {...item.defaultProps} /> */}
             {getComponentByType(item)}

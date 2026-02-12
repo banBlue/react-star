@@ -63,11 +63,7 @@ const List: React.FC = () => {
     setList([])
     setTotal(0)
     setRequireDone(false)
-  }, [searchParams.get(SEARCH_KEY)])
-
-
-  useEffect(() => {
-    tryLoadMore()    
+    tryLoadMore()
   },[searchParams])
 
   useEffect(() => {

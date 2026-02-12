@@ -3,7 +3,7 @@ import {Typography} from 'antd'
 import {QuestionTitleProps, QuestionTitleDefaultProps} from './interface'
 const {Title} = Typography
 const QuestionTitle: React.FC<QuestionTitleProps> = (props:QuestionTitleProps) => {
-  const {title, level, isCenter} = {...QuestionTitleDefaultProps, ...props}
+  const {title, level = 1, isCenter} = {...QuestionTitleDefaultProps, ...props}
   const genFontSize = (level: number) => {
     switch(level) {
       case 1:

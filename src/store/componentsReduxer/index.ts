@@ -29,12 +29,22 @@ const componentReducer = createSlice({
       return action.payload
     },
     changeSelectedId: (state: ComponentStateType, action: PayloadAction<string>) => {
-    // state.selectedId = action.payload
-      state.selectedId = action.payload
+      return {...state, selectedId: action.payload}
+    },
+    addComponent: (state: ComponentStateType, action: PayloadAction<ComponentInfoType>) => {
+      const {fe_id} = action.payload
+      const index = state.componentsList.findIndex((item) => { return item.fe_id === state.selectedId})
+      const componentsList = [...state.componentsList] // 不能直接修改原数组,使用浅拷贝的方式
+      if(index !== -1) {
+        componentsList.splice(index+1, 0 ,action.payload)
+      }else {
+        componentsList.push(action.payload)
+      }
+      return {...state, componentsList, selectedId: fe_id}
     }
   },
   
 })
 
-export const { resetComponents, changeSelectedId} = componentReducer.actions
+export const { resetComponents, changeSelectedId, addComponent} = componentReducer.actions
 export default componentReducer.reducer
