@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 import {ComponentPropsType} from '../../compontents/QuestionCompontents'
+import { produce } from 'immer'
 
 export type ComponentInfoType = {
   fe_id: string,
@@ -53,7 +54,19 @@ const componentReducer = createSlice({
         return {...state, componentsList}
       }
       return state
-    }
+    },
+    removeSelectedComponent: produce((draft: ComponentStateType) => {
+      const {selectedId, componentsList = []} = draft
+      const index = componentsList.findIndex((item) => { return item.fe_id === selectedId})
+      if(index > -1) {
+        draft.componentsList.splice(index, 1)
+        if(draft.componentsList.length > 0) {
+          draft.selectedId = draft.componentsList[0].fe_id
+        }else {
+          draft.selectedId = ''
+        }
+      }
+    })
   },
   
 })
