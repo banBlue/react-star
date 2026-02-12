@@ -41,7 +41,7 @@ const EditCanvas: React.FC<PropsType> = (props: PropsType) => {
       {componentsList.map(item => {
         const isSelected = item['fe_id'] === selectedId
         return (
-        <div className={styles['component-wrapper'] + (isSelected ? ' ' + styles['selected'] : '')} key={item['fe_id']} onDoubleClick={(e) => {setSelectedId(e,item['fe_id'])}}>
+        <div className={styles['component-wrapper'] + (isSelected ? ' ' + styles['selected'] : '')} key={item['fe_id']} onClick={(e) => {setSelectedId(e,item['fe_id'])}}>
           <div className={styles['component']}>
             {/* <item.Component {...item.defaultProps} /> */}
             {getComponentByType(item)}

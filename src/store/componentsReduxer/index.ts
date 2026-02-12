@@ -41,10 +41,22 @@ const componentReducer = createSlice({
         componentsList.push(action.payload)
       }
       return {...state, componentsList, selectedId: fe_id}
+    },
+    changeComponentProps: (state: ComponentStateType, action: PayloadAction<{fe_id:string, newProps: ComponentPropsType}>) => {
+      const {fe_id, newProps} = action.payload
+      const index = state.componentsList.findIndex((item) => { return item.fe_id === fe_id})
+      if(index > -1) {
+        const componentsList = [...state.componentsList] // 不能直接修改原数组,使用浅拷贝的方式
+        const currentCom = componentsList[index]
+        const newCom = {...currentCom, props: {...currentCom.props, ...newProps}}
+        componentsList.splice(index, 1 ,newCom)
+        return {...state, componentsList}
+      }
+      return state
     }
   },
   
 })
 
-export const { resetComponents, changeSelectedId, addComponent} = componentReducer.actions
+export const { resetComponents, changeSelectedId, addComponent, changeComponentProps} = componentReducer.actions
 export default componentReducer.reducer
