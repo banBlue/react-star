@@ -5,10 +5,12 @@ import { Layout, Spin } from 'antd';
 import Logo from '../compontents/Logo';
 import UserInfo from '../compontents/UserInfo';
 import useLoadUserInfo from '../hooks/useLoadUserInfo'
+import useNavPage from '../hooks/useNavPage'
 const { Header, Footer, Content } = Layout;
 
 const MainLayout:React.FC = () => {
   const {waitReq} = useLoadUserInfo()
+  useNavPage(waitReq)
   return <Layout>
     <Header className={styles.header}>
       <div className={styles.left}>

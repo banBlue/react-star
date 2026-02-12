@@ -75,3 +75,17 @@ const router = createBrowserRouter([
 ])
 
 export default router
+
+export const HOME_PATHNAME = '/'
+export const LOGIN_PATHNAME = '/login'
+export const REGISTER_PATHNAME = '/register'
+export const MANAGE_INDEX_PATHNAME = '/manage/list'
+
+export function isLoginOrRegister(pathname: string) {
+  return [LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname)
+}
+
+
+export const isNoNeedUserInfo = (pathname: string) => {
+  return isLoginOrRegister(pathname) || [HOME_PATHNAME].includes(pathname)
+}

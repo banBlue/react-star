@@ -56,6 +56,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
   + 回收站  /manage/trash  
 + 问卷详情
   + 编辑问卷 /question/edit/:id (动态路由)
+    + 组件:title,input
   + 问卷统计 /question/stat/:id
 
 ## layouts模版

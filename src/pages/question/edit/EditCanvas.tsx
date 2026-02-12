@@ -24,7 +24,7 @@ function getComponentByType(item: ComponentInfoType) {
 
 const EditCanvas: React.FC<PropsType> = (props: PropsType) => {
   const {loading} = props
-  const {componentsList = []} = useGetComponentInfo()
+  const {componentsList = [], selectedId = ''} = useGetComponentInfo()
   if(loading) {
     return (
       <Spin />
@@ -32,19 +32,17 @@ const EditCanvas: React.FC<PropsType> = (props: PropsType) => {
   }
   return (
     <div className={styles.canvas}>
-      {componentsList.map(item => (
-        <div className={styles['component-wrapper']} key={item['fe_id']}>
+      {componentsList.map(item => {
+        const isSelected = item['fe_id'] === selectedId
+        return (
+        <div className={styles['component-wrapper'] + (isSelected ? ' ' + styles['selected'] : '')} key={item['fe_id']}>
           <div className={styles['component']}>
             {/* <item.Component {...item.defaultProps} /> */}
             {getComponentByType(item)}
           </div>
         </div>
-      ))}
-      {/* <div className={styles['component-wrapper']}>
-        <div className={styles['component']}>
-          <QuestionInput placeholder='请输入' />
-        </div>
-      </div> */}
+      )
+      })}
     </div>
   )
 }
