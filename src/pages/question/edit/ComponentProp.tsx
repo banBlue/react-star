@@ -13,7 +13,7 @@ const ComponentProp: React.FC = () => {
   const componentConf = getComponentConfType(type) || null
   if(componentConf === null) return <div>未找到属性组件</div>
   const onChange = (newProps:QuestionTitleProps) => {
-    console.log(newProps)
+    console.log('ComponentProp-onChange',newProps)
     dispatch(changeComponentProps({fe_id, newProps}))
   }
   return (
