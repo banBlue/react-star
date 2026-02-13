@@ -21,6 +21,7 @@ const ComponentLib: React.FC = () => {
             title,
             type,
             props: defaultProps,
+            isHidden: false,
           })
         )
       }

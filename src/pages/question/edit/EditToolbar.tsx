@@ -1,22 +1,25 @@
 import React, { FC } from 'react'
-import { Space, Button } from 'antd'
-import { UserAddOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Space, Button, Tooltip } from 'antd'
+import { UserAddOutlined, EyeInvisibleOutlined,DownloadOutlined,DeleteOutlined } from '@ant-design/icons'
 import styles from './EditHeader.module.scss'
+import { useDispatch } from 'react-redux'
+import { removeSelectedComponent, changeComponentHidden } from '../../../store/componentsReduxer'
 
 const EditToolbar: FC = () => {
-  const removeSelectedComponent = () => {}
-  const addComponent = () => {}
-
+  const dispatch = useDispatch()
+  const toogleShowStatus= () => {
+    dispatch(changeComponentHidden())
+  }
   return (
     <div className={styles['toolbar-wrapper']}>
       <div className={styles.toolbar}>
         <Space>
-          <Button type="link" icon={<UserAddOutlined />} onClick={() => addComponent()}>
-            添加组件
-          </Button>
-          <Button type="link" icon={<DeleteOutlined />} onClick={() => removeSelectedComponent()}>
-            删除组件
-          </Button>
+          <Tooltip title="删除选中组件">
+            <Button shape="circle"  icon={<DeleteOutlined />} onClick={() => dispatch(removeSelectedComponent())}/>                      
+          </Tooltip>
+          <Tooltip title="隐藏/显示选中组件">
+            <Button shape="circle"  icon={<EyeInvisibleOutlined />} onClick={() => toogleShowStatus()}/>                      
+          </Tooltip>
         </Space>
       </div>
     </div>

@@ -22,9 +22,9 @@ const useLoadQuestion = () =>{
   useEffect(() => {
     if(data) {
       if(data.componentList.length) {
-        dispatch(resetComponents({componentsList: data.componentList, selectedId: data.componentList[0].fe_id}))
+        dispatch(resetComponents({componentList: data.componentList, selectedId: data.componentList[0].fe_id}))
       }else {
-        dispatch(resetComponents({componentsList: data.componentList, selectedId: ''}))
+        dispatch(resetComponents({componentList: data.componentList, selectedId: ''}))
       }
     }
   }, [data])
