@@ -9,7 +9,7 @@ const ComponentProp: React.FC = () => {
   const {selectedComponent} = useGetComponentInfo()
   const dispatch = useDispatch()
   if(selectedComponent === null) return <div>未找到属性组件</div>
-  const {type ,props, fe_id} = selectedComponent
+  const {type ,props, fe_id, isLocked} = selectedComponent
   const componentConf = getComponentConfType(type) || null
   if(componentConf === null) return <div>未找到属性组件</div>
   const onChange = (newProps:QuestionTitleProps) => {
@@ -17,7 +17,7 @@ const ComponentProp: React.FC = () => {
     dispatch(changeComponentProps({fe_id, newProps}))
   }
   return (
-    <componentConf.PropComponent {...props} onChange={onChange} />
+    <componentConf.PropComponent {...props} onChange={onChange} disabled={isLocked}/>
   )
 }
 

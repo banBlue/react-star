@@ -3,7 +3,7 @@ import type {QuestionTitleProps} from './index'
 import {Form, Select, Checkbox, Input} from 'antd'
 
 const PropComponent: React.FC<QuestionTitleProps> =  (props:QuestionTitleProps) => {
-  const {text, level, isCenter, onChange} = props
+  const {text, level, isCenter, onChange, disabled} = props
   const [form] = Form.useForm()
   useEffect(() => {
     form.setFieldsValue({
@@ -13,7 +13,7 @@ const PropComponent: React.FC<QuestionTitleProps> =  (props:QuestionTitleProps) 
     })
   }, [text, level, isCenter])
   return (
-    <Form form={form} layout="vertical" onValuesChange={() => { onChange && onChange(form.getFieldsValue())}} initialValues={{
+    <Form form={form} disabled={disabled} layout="vertical" onValuesChange={() => { onChange && onChange(form.getFieldsValue())}} initialValues={{
       text,
       level,
       isCenter

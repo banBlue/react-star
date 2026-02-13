@@ -6,6 +6,7 @@ import {getComponentConfType} from '../../../compontents/QuestionCompontents'
 import type {ComponentInfoType} from '../../../store/componentsReduxer'
 import { useDispatch } from 'react-redux'
 import {changeSelectedId} from '../../../store/componentsReduxer'
+import classNames from 'classnames'
 
 type PropsType = {
   loading: boolean
@@ -40,8 +41,12 @@ const EditCanvas: React.FC<PropsType> = (props: PropsType) => {
     <div className={styles.canvas}>
       {componentList.filter(item => !item.isHidden).map(item => {
         const isSelected = item['fe_id'] === selectedId
+        const className = classNames(styles['component-wrapper'], {
+          [styles['selected']]: isSelected,
+          [styles['locked']]: item.isLocked,
+        })
         return (
-        <div className={styles['component-wrapper'] + (isSelected ? ' ' + styles['selected'] : '')} key={item['fe_id']} onClick={(e) => {setSelectedId(e,item['fe_id'])}}>
+        <div className={className} key={item['fe_id']} onClick={(e) => {setSelectedId(e,item['fe_id'])}}>
           <div className={styles['component']}>
             {/* <item.Component {...item.defaultProps} /> */}
             {getComponentByType(item)}

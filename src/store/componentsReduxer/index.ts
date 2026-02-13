@@ -11,6 +11,7 @@ export type ComponentInfoType = {
   title: string,
   props: ComponentPropsType,
   isHidden: boolean,
+  isLocked: boolean,
 }
 
 export type ComponentsStateType = {
@@ -79,9 +80,19 @@ const componentReducer = createSlice({
           return true
         }
       })
-    })
+    }),
+    changeComponentLocked: produce((draft: ComponentsStateType) => {
+      const {selectedId} = draft      
+      draft.componentList.some(item => {
+        if(item.fe_id === selectedId) {
+          item.isLocked = !item.isLocked
+          return true
+        }
+        return false
+      })
+    }),
   },  
 })
 
-export const { changeComponentHidden, resetComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent} = componentReducer.actions
+export const { changeComponentHidden, resetComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,changeComponentLocked} = componentReducer.actions
 export default componentReducer.reducer
