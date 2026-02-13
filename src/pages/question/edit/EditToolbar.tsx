@@ -1,14 +1,14 @@
 import React, { FC } from 'react'
 import { Space, Button, Tooltip } from 'antd'
-import { UserAddOutlined, EyeInvisibleOutlined,DownloadOutlined,DeleteOutlined,LockOutlined } from '@ant-design/icons'
+import { UserAddOutlined, EyeInvisibleOutlined,DownloadOutlined,DeleteOutlined,LockOutlined,CopyOutlined } from '@ant-design/icons'
 import styles from './EditHeader.module.scss'
 import { useDispatch } from 'react-redux'
-import { removeSelectedComponent, changeComponentHidden, changeComponentLocked } from '../../../store/componentsReduxer'
+import { removeSelectedComponent, changeComponentHidden, changeComponentLocked,copySelectedComponent,pasteComponent } from '../../../store/componentsReduxer'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
 
 const EditToolbar: FC = () => {
   const dispatch = useDispatch()
-  const {selectedComponent} = useGetComponentInfo()
+  const {selectedComponent, copiedComponent} = useGetComponentInfo()
   if(selectedComponent === null) return <div>未找到属性组件</div>
   const {isLocked} = selectedComponent || {}  
   const toogleShowStatus= () => {
@@ -16,6 +16,12 @@ const EditToolbar: FC = () => {
   }
   const toogleLockedStatus= () => {
     dispatch(changeComponentLocked())
+  }
+  const handleCopyComponent = () => {
+    dispatch(copySelectedComponent())
+  }
+  const handlePasteComponent = () => {
+    dispatch(pasteComponent())
   }
   return (
     <div className={styles['toolbar-wrapper']}>
@@ -29,6 +35,12 @@ const EditToolbar: FC = () => {
           </Tooltip>
           <Tooltip title="锁定组件">
             <Button shape="circle" type={isLocked ? 'primary' : 'default'}  icon={<LockOutlined />} onClick={() => toogleLockedStatus()}/>                      
+          </Tooltip>
+          <Tooltip title="复制组件">
+            <Button shape="circle"  icon={<CopyOutlined />} onClick={() => handleCopyComponent()}/>                      
+          </Tooltip>
+          <Tooltip title="粘黏">
+            <Button shape="circle" disabled={copiedComponent === null}  icon={<DownloadOutlined />} onClick={() => handlePasteComponent()}/>
           </Tooltip>
         </Space>
       </div>

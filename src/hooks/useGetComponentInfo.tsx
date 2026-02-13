@@ -3,12 +3,13 @@ import type { ComponentsStateType } from '../store/componentsReduxer/index'
 import type {stateType} from '../store/index'
 
 const useGetComponentInfo = () => {
-  const { componentList = [], selectedId = ''} = useSelector<stateType>(state => state.components) as ComponentsStateType
+  const { componentList = [], selectedId = '', copiedComponent = null} = useSelector<stateType>(state => state.components) as ComponentsStateType
   const selectedComponent = componentList.find(item => item['fe_id'] === selectedId) || null
   return {
     componentList,
     selectedId,
-    selectedComponent
+    selectedComponent,
+    copiedComponent
   }
 }
 

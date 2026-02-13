@@ -48,7 +48,6 @@ const EditCanvas: React.FC<PropsType> = (props: PropsType) => {
         return (
         <div className={className} key={item['fe_id']} onClick={(e) => {setSelectedId(e,item['fe_id'])}}>
           <div className={styles['component']}>
-            {/* <item.Component {...item.defaultProps} /> */}
             {getComponentByType(item)}
           </div>
         </div>

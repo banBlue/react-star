@@ -4,6 +4,8 @@ import {ComponentPropsType} from '../../compontents/QuestionCompontents'
 import { produce } from 'immer'
 import { getNextSelectedId, insertNewComponent } from './utils'
 import { TrophyOutlined } from '@ant-design/icons'
+import  cloneDeep from 'lodash-es/cloneDeep'
+import {nanoid} from 'nanoid'
 
 export type ComponentInfoType = {
   fe_id: string,
@@ -17,13 +19,15 @@ export type ComponentInfoType = {
 export type ComponentsStateType = {
   componentList: ComponentInfoType[],
   selectedId: string,
+  copiedComponent?: ComponentInfoType | null
 }
 
 const initialState: ComponentsStateType = {
   // 组件数据
   componentList: [],
   // 其他数据
-  selectedId: ''
+  selectedId: '',
+  copiedComponent: null
 }
 
 const componentReducer = createSlice({
@@ -81,6 +85,7 @@ const componentReducer = createSlice({
         }
       })
     }),
+    // 锁定组件
     changeComponentLocked: produce((draft: ComponentsStateType) => {
       const {selectedId} = draft      
       draft.componentList.some(item => {
@@ -91,8 +96,24 @@ const componentReducer = createSlice({
         return false
       })
     }),
+    // 复制组件
+    copySelectedComponent: produce((draft: ComponentsStateType) => {
+      const {selectedId} = draft
+      const component = draft.componentList.find((item) => { return item.fe_id === selectedId})
+      if(component) {
+        draft.copiedComponent = cloneDeep(component)
+      }
+    }),
+    // 粘黏组件
+    pasteComponent: produce((draft: ComponentsStateType) => {
+      const {copiedComponent} = draft
+      if(copiedComponent) {
+        // 粘贴组件时，需要给组件一个新的 fe_id
+        insertNewComponent(draft, {...copiedComponent, fe_id: nanoid()})
+      }
+    })
   },  
 })
 
-export const { changeComponentHidden, resetComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,changeComponentLocked} = componentReducer.actions
+export const { changeComponentHidden, resetComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,changeComponentLocked,copySelectedComponent, pasteComponent} = componentReducer.actions
 export default componentReducer.reducer
