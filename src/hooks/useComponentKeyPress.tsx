@@ -1,6 +1,6 @@
 import { useKeyPress } from 'ahooks'
 import { useDispatch } from 'react-redux'
-import { removeSelectedComponent,copySelectedComponent,pasteComponent } from '../store/componentsReduxer'
+import { removeSelectedComponent,copySelectedComponent,pasteComponent,uparrowSelectComponent,arrowDownSelectComponent } from '../store/componentsReduxer'
 
 function isActiveComponent() {
   return document.activeElement === document.body
@@ -20,4 +20,12 @@ export const useComponentKeyPress = () => {
     if(!isActiveComponent()) return
     dispatch(pasteComponent())
   });
+  useKeyPress('uparrow', () => {
+    if(!isActiveComponent()) return
+    dispatch(uparrowSelectComponent())
+  })
+  useKeyPress(40, () => {
+    if(!isActiveComponent()) return
+    dispatch(arrowDownSelectComponent())
+  })
 }

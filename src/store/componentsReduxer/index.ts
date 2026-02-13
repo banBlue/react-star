@@ -111,9 +111,23 @@ const componentReducer = createSlice({
         // 粘贴组件时，需要给组件一个新的 fe_id
         insertNewComponent(draft, {...copiedComponent, fe_id: nanoid()})
       }
-    })
+    }),
+    uparrowSelectComponent: produce((draft: ComponentsStateType) => {
+      const {selectedId} = draft
+      const index = draft.componentList.findIndex((item) => { return item.fe_id === selectedId})
+      if(index > 0) {
+        draft.selectedId = draft.componentList[index - 1].fe_id
+      }
+    }),
+    arrowDownSelectComponent: produce((draft: ComponentsStateType) => {
+      const {selectedId} = draft
+      const index = draft.componentList.findIndex((item) => { return item.fe_id === selectedId})
+      if(index < draft.componentList.length - 1) {
+        draft.selectedId = draft.componentList[index + 1].fe_id
+      }
+    }),
   },  
 })
 
-export const { changeComponentHidden, resetComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,changeComponentLocked,copySelectedComponent, pasteComponent} = componentReducer.actions
+export const { changeComponentHidden, resetComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,changeComponentLocked,copySelectedComponent, pasteComponent,uparrowSelectComponent,arrowDownSelectComponent} = componentReducer.actions
 export default componentReducer.reducer
