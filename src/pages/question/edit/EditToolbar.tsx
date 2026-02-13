@@ -5,11 +5,14 @@ import styles from './EditHeader.module.scss'
 import { useDispatch } from 'react-redux'
 import { removeSelectedComponent, changeComponentHidden, changeComponentLocked,copySelectedComponent,pasteComponent } from '../../../store/componentsReduxer'
 import useGetComponentInfo from '../../../hooks/useGetComponentInfo'
+import { useComponentKeyPress } from '../../../hooks/useComponentKeyPress'
 
 const EditToolbar: FC = () => {
+    useComponentKeyPress()
   const dispatch = useDispatch()
   const {selectedComponent, copiedComponent} = useGetComponentInfo()
   if(selectedComponent === null) return <div>未找到属性组件</div>
+
   const {isLocked} = selectedComponent || {}  
   const toogleShowStatus= () => {
     dispatch(changeComponentHidden())
